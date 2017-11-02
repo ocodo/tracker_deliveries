@@ -1,3 +1,9 @@
+![](https://img.shields.io/github/issues/badges/ocodo/tracker_deliveries.svg)
+![](https://img.shields.io/github/issues-pr/ocodo/tracker_deliveries.svg)
+![](https://img.shields.io/github/license/ocodo/tracker_deliveries.svg)
+![](https://img.shields.io/gem/v/tracker_deliveries.svg)
+![](https://img.shields.io/circleci/project/github/ocodo/tracker_deliveries/master.svg)
+
 # TrackerDeliveries
 
 Generates a list of currently delivered tracker stories.
