@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'tracker_deliveries'
+
+puts TrackerDeliveries::Main.new().delivered_stories
