@@ -1,5 +1,10 @@
 #!/usr/bin/env ruby
+# -*- mode: ruby -*-
 
 require 'tracker_deliveries'
 
-puts TrackerDeliveries::Main.new().delivered_stories
+if ARGV[0] == '--markdown'
+   puts TrackerDeliveries::Main.new(format: :markdown).delivered_stories
+else
+   puts TrackerDeliveries::Main.new().delivered_stories
+end

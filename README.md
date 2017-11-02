@@ -19,28 +19,32 @@ gem install tracker_deliveries
 
 ## Usage
 
-Define these environment variables
+Define these environment variables:
 
-`TRACKER_DELIVERIES_API_TOKEN` - tracker API token.
+- `TRACKER_DELIVERIES_API_TOKEN` - tracker API token
+- `TRACKER_DELIVERIES_PROJECT_ID` - tracker project ID
 
-`TRACKER_DELIVERIES_PROJECT_ID` - tracker project ID
-
-Then run the command:
+Run:
 
 ```
 tracker_deliveries
 ```
 
-This fetches the currently delivered tracker stories from your project
-and display the id and story title.
-
-e.g.
+Output current delivered stories ids & story titles e.g.:
 
 ```
 132412351 - Add widget service request to order form
 123412144 - Display widget detail view UI
 131412414 - Update widget quantity in shopping cart
 132412155 - Localize cart in Pirate speak, arr.
+```
+
+### Markdown output
+
+If you want to generate markdown output with built in links to tracker stories, run:
+
+```
+tracker_deliveries --markdown
 ```
 
 ## Pivotal Tracker API Token and Project ID
