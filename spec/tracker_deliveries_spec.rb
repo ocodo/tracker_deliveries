@@ -62,6 +62,7 @@ describe TrackerDeliveries do
     let(:result) { pivotal_tracker.delivered_stories }
 
     before do
+      # Setup fake blanket wrapper
       allow(blanket).to receive(:projects).with(@project_id).and_return(projects)
       allow(projects).to receive(:stories).and_return(stories)
       allow(stories).to receive(:get).with({ params: options }).and_return(get)
