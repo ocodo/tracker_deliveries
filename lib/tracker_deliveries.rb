@@ -20,6 +20,7 @@ module TrackerDeliveries
 
   class PivotalTracker
     PIVOTAL_API_URL = 'https://www.pivotaltracker.com/services/v5/'
+    PIVOTAL_TRACKER_STORY_URL = 'https://pivotaltracker.com/story/show/'
     attr_accessor :api
 
     def initialize project_id, api_key, options = {}
@@ -44,7 +45,7 @@ module TrackerDeliveries
     private
 
     def pivotal_tracker_link s
-      %Q{https://pivotaltracker.com/story/show/#{s.id}}
+      %Q{#{PIVOTAL_TRACKER_STORY_URL}#{s.id}}
     end
 
     def story_formatter s

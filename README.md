@@ -84,3 +84,8 @@ token is at the bottom of the page.
 Visit your PivotalTracker project the `project_id` last part of
 the URL, e.g. `https://www.pivotaltracker.com/n/projects/1234567` the
 `project_id` is `1234567`
+
+## Acknowledgements
+
+This was built using Ruby, Rspec/TDD with Blanket Wrapper provides the
+basis of the REST service client.
