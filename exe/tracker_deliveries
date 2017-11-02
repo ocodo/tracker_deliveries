@@ -5,6 +5,8 @@ require 'tracker_deliveries'
 
 if ARGV[0] == '--markdown'
    puts TrackerDeliveries::Main.new(format: :markdown).delivered_stories
+elsif ARGV[0] == '--html'
+   puts TrackerDeliveries::Main.new(format: :html).delivered_stories
 else
    puts TrackerDeliveries::Main.new().delivered_stories
 end

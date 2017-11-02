@@ -25,35 +25,49 @@ module TrackerDeliveries
     def initialize project_id, api_key, options = {}
       @api_key = api_key
       @project_id = project_id
-      @markdown = options[:format] == :markdown
+      @format = options[:format] || :plaintext
       @api = Blanket.wrap PIVOTAL_API_URL,
                           headers: { 'X-TrackerToken' => @api_key }
     end
 
     def delivered_stories
       options = {with_state: "delivered"}
-      api
-        .projects(@project_id)
-        .stories
-        .get(params: options)
-        .payload
-        .map{|s| story_formatter s }
+      wrap_output(api
+                    .projects(@project_id)
+                    .stories
+                    .get(params: options)
+                    .payload
+                    .map{|s| story_formatter s }
+                    .join("\n"))
     end
 
     private
 
+    def pivotal_tracker_link s
+      %Q{https://pivotaltracker.com/story/show/#{s.id}}
+    end
+
     def story_formatter s
-      return markdown_formatter s if @markdown
-      return plaintext_formatter s
+      return send(@format, s)
     end
 
-    def plaintext_formatter s
-      "#{s.id} - #{s.name}"
+    def wrap_output output
+      return %Q{<ul>\n#{output}\n</ul>} if @format == :html
+      output
     end
 
-    def markdown_formatter s
-      link = "[#{s.id}](https://pivotaltracker.com/story/show/#{s.id})"
-      "#{link} - #{s.name}"
+    def plaintext s
+      %Q{#{s.id} - #{s.name}}
+    end
+
+    def markdown s
+      link = %Q{[#{s.id}](#{pivotal_tracker_link s})}
+      %Q{- #{link} - #{s.name}}
+    end
+
+    def html s
+      link = %Q{<a href="#{pivotal_tracker_link s}">#{s.id}</a>}
+      %Q{<li>#{link} - #{s.name}</li>}
     end
   end
 end
