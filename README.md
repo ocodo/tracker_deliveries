@@ -2,7 +2,7 @@
 
 Generates a list of currently delivered tracker stories.
 
-This was made to assist in automatically generating UAT release notes
+Made to assist automatically generating release notes
 for continuous delivery.
 
 ## Installation

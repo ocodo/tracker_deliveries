@@ -8,10 +8,18 @@ Gem::Specification.new do |spec|
   spec.version       = TrackerDeliveries::VERSION
   spec.authors       = ["Jason Milkins"]
   spec.email         = ["ocodo@pivotal.io"]
+  spec.license       = "MIT"
 
   spec.summary       = %q{Generate a plaintext summary of Pivotal Tracker delivered stories}
-  spec.description   = spec.summary
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.description   = %q{Tracker Deliveries
+
+Generates a list of currently delivered tracker stories.
+
+Made to assist automatically generating release notes
+for continuous delivery.
+    }
+
+  spec.homepage      = "https://github.com/ocodo/tracker_deliveries"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
