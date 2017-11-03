@@ -11,6 +11,7 @@ module TrackerDeliveries
     def initialize(options = {})
       @project_id = ENV['TRACKER_DELIVERIES_PROJECT_ID']
       @api_token = ENV['TRACKER_DELIVERIES_API_TOKEN']
+
       @pivotal_tracker = TrackerDeliveries::PivotalTracker.new(@project_id, @api_token, options)
     end
 

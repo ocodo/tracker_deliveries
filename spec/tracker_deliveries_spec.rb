@@ -6,7 +6,7 @@ include TrackerDeliveries
 describe TrackerDeliveries do
 
   let(:project_id) { 'PROJECT ID' }
-  let(:api_token) { 'API TOKEN' }
+  let(:api_token)  { 'API TOKEN' }
 
   before do
     ENV['TRACKER_DELIVERIES_PROJECT_ID'] = project_id
@@ -51,19 +51,18 @@ describe TrackerDeliveries do
 
   describe PivotalTracker do
 
-    let(:pivotal_tracker) { PivotalTracker.new(@project_id, @api_token) }
-    let(:story_one) { OpenStruct.new({id: '123456', name: 'Story one'}) }
-    let(:story_two) { OpenStruct.new({id: '654321', name: 'Story two'}) }
-    let(:blanket) { double 'Blanket' }
-    let(:projects) { double 'Projects' }
-    let(:stories) { double 'Stories' }
-    let(:get) { double 'Get' }
-    let(:options) { { with_state: 'delivered' } }
-    let(:result) { pivotal_tracker.delivered_stories }
+    let(:pivotal_tracker) { PivotalTracker.new(project_id, api_token) }
+    let(:story_one)       { OpenStruct.new({id: '123456', name: 'Story one'}) }
+    let(:story_two)       { OpenStruct.new({id: '654321', name: 'Story two'}) }
+    let(:blanket)         { double 'Blanket' }
+    let(:projects)        { double 'Projects' }
+    let(:stories)         { double 'Stories' }
+    let(:get)             { double 'Get' }
+    let(:options)         { { with_state: 'delivered' } }
+    let(:result)          { pivotal_tracker.delivered_stories }
 
     before do
-      # Setup fake blanket wrapper
-      allow(blanket).to receive(:projects).with(@project_id).and_return(projects)
+      allow(blanket).to receive(:projects).with(project_id).and_return(projects)
       allow(projects).to receive(:stories).and_return(stories)
       allow(stories).to receive(:get).with({ params: options }).and_return(get)
       allow(get).to receive(:payload).and_return([story_one,story_two])
@@ -78,7 +77,7 @@ describe TrackerDeliveries do
     end
 
     context "markdown output" do
-      let(:pivotal_tracker) { PivotalTracker.new(@project_id, @api_token, format: :markdown ) }
+      let(:pivotal_tracker) { PivotalTracker.new(project_id, api_token, format: :markdown) }
 
       it 'output delivered stories from pivotal tracker in markdown format' do
         expect(result).to eq(%Q{- [123456](https://pivotaltracker.com/story/show/123456) - Story one\n- [654321](https://pivotaltracker.com/story/show/654321) - Story two})
@@ -86,7 +85,7 @@ describe TrackerDeliveries do
     end
 
     context "HTML output" do
-      let(:pivotal_tracker) { PivotalTracker.new(@project_id, @api_token, format: :html) }
+      let(:pivotal_tracker) { PivotalTracker.new(project_id, api_token, format: :html) }
 
       it 'output delivered stories from pivotal tracker in HTML format' do
         expect(result).to eq(%Q{<ul>
