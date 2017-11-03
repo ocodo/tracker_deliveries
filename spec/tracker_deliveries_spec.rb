@@ -4,9 +4,22 @@ require 'ostruct'
 include TrackerDeliveries
 
 describe TrackerDeliveries do
-
   let(:project_id) { 'PROJECT ID' }
   let(:api_token)  { 'API TOKEN' }
+
+  context 'environment not correctly set up' do
+    it 'raises an error when the project id environment variable TRACKER_DELIVERIES_PROJECT_ID is not set' do
+      ENV['TRACKER_DELIVERIES_PROJECT_ID'] = nil
+      ENV['TRACKER_DELIVERIES_API_TOKEN'] = api_token
+      expect{ TrackerDeliveries::Main.new }.to raise_error SystemExit
+    end
+
+    it 'raises an error when the project id environment variable TRACKER_DELIVERIES_API_TOKEN is not set' do
+      ENV['TRACKER_DELIVERIES_PROJECT_ID'] = project_id
+      ENV['TRACKER_DELIVERIES_API_TOKEN'] = nil
+      expect{ TrackerDeliveries::Main.new }.to raise_error SystemExit
+    end
+  end
 
   before do
     ENV['TRACKER_DELIVERIES_PROJECT_ID'] = project_id
