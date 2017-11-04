@@ -25,7 +25,7 @@ jobs:
             bundle exec rspec --format documentation \
                               --format RspecJunitFormatter \
                               --out /tmp/test-results/rspec.xml \
-                              -- $(echo "${TEST_FILES}" | sed 's/\n/\\n/')
+                              -- $(echo "${TEST_FILES}" | sed -e 's/\n/\\n/' -e 's/ /\ /')
 
       - store_test_results:
           path: /tmp/test-results
