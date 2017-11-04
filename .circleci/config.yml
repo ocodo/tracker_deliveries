@@ -20,9 +20,11 @@ jobs:
       - run:
           name: run tests
           command: |
-            mkdir /tmp/test-results
+            mkdir -p /tmp/test-results
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
-            echo $TEST_FILES
+            pwd
+            ls
+            echo "$TEST_FILES" | cat -vte
             bundle exec rspec --format documentation \
                               --format RspecJunitFormatter \
                               --out /tmp/test-results/rspec.xml \
