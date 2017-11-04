@@ -1,8 +1,17 @@
 require 'spec_helper'
 require 'tracker_deliveries_command'
 
-describe 'Tracker deliveries executable' do
-  describe 'parsing options' do
+describe 'TrackerDeliveriesCommand' do
+
+  describe 'exe wrapper' do
+    it 'calls the command' do
+      expect(
+        `ruby -Ilib exe/tracker_deliveries 2>&1`.strip
+      ).to eq "Fatal: Project ID environment variable not set (TRACKER_DELIVERIES_PROJECT_ID)"
+    end
+  end
+
+  describe 'parsing commandline options' do
     let(:tracker_deliveries_main) { double('TrackerDeliveries::Main') }
 
     before do
@@ -10,12 +19,12 @@ describe 'Tracker deliveries executable' do
       allow(tracker_deliveries_main).to receive(:delivered_stories)
     end
 
-    it 'recognises markdown option and forwards it' do
+    it 'parse markdown option and forward it' do
       expect(tracker_deliveries_main).to receive(:new).with({ format: "markdown" })
       TrackerDeliveriesCommand.new(tracker_deliveries_main).main "--markdown"
     end
 
-    it 'recognises HTML option and forwards it' do
+    it 'parse HTML option and forward it' do
       expect(tracker_deliveries_main).to receive(:new).with({ format: "html" })
       TrackerDeliveriesCommand.new(tracker_deliveries_main).main "--html"
     end

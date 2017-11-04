@@ -12,16 +12,14 @@ module TrackerDeliveries
     PROJECT_ID_ENV = 'TRACKER_DELIVERIES_PROJECT_ID'
     API_TOKEN_ENV = 'TRACKER_DELIVERIES_API_TOKEN'
 
-    attr_accessor :project_id,
-                  :api_token,
-                  :pivotal_tracker
+    attr_accessor :pivotal_tracker
 
     def initialize(options = {})
-      @project_id = ENV[PROJECT_ID_ENV]
-      @api_token = ENV[API_TOKEN_ENV]
+      project_id = ENV[PROJECT_ID_ENV]
+      api_token = ENV[API_TOKEN_ENV]
 
-      abort "Fatal: Project ID environment variable not set (#{PROJECT_ID_ENV})" unless @project_id
-      abort "Fatal: PivotalTracker API Token environment variable not set (#{API_TOKEN_ENV})" unless @api_token
+      abort "Fatal: Project ID environment variable not set (#{PROJECT_ID_ENV})" unless project_id
+      abort "Fatal: PivotalTracker API Token environment variable not set (#{API_TOKEN_ENV})" unless api_token
 
       @pivotal_tracker = TrackerDeliveries::PivotalTracker.new(@project_id, @api_token, options)
     end

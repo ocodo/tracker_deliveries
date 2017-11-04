@@ -35,23 +35,11 @@ describe TrackerDeliveries do
       expect(subject).to be_instance_of TrackerDeliveries::Main
     end
 
-    it 'reads project id from environment' do
-      expect(subject.project_id).to eq project_id
-    end
-
-    it 'reads api token from environment' do
-      expect(subject.api_token).to eq api_token
-    end
-
-    context "Depend on pivotal tracker api wrapper" do
+    context "pivotal tracker api wrapper" do
       let(:pivotal_tracker) { double("pivotal tracker") }
       let(:tracker_deliveries) { TrackerDeliveries::Main.new }
 
-      it 'has a pivotal tracker api wrapper' do
-        expect(subject.pivotal_tracker).to be_instance_of PivotalTracker
-      end
-
-      it 'get list of delivered stories' do
+      it 'request list of delivered stories' do
         allow(pivotal_tracker).to receive(:delivered_stories)
 
         expect(pivotal_tracker).to receive(:delivered_stories)
