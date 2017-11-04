@@ -1,12 +1,6 @@
 #!/usr/bin/env ruby
 # -*- mode: ruby -*-
 
-require 'tracker_deliveries'
+require 'tracker_deliveries_command'
 
-if ARGV[0] == '--markdown'
-   puts TrackerDeliveries::Main.new(format: :markdown).delivered_stories
-elsif ARGV[0] == '--html'
-   puts TrackerDeliveries::Main.new(format: :html).delivered_stories
-else
-   puts TrackerDeliveries::Main.new().delivered_stories
-end
+TrackerDeliveriesCommand.new ARGV[0]
