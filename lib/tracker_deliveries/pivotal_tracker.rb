@@ -25,22 +25,18 @@ module TrackerDeliveries
     end
 
     def delivered_stories
-      options = {with_state: "delivered"}
-      wrap_output api
-        .projects(@project_id)
-        .stories
-        .get(params: options)
-        .payload
-        .map { |s| story_formatter s }
-        .join("\n")
-    end
+      params = {
+        params:
+          {
+            with_state: "delivered"
+          }
+      }
 
-    def wrap_output output
-      @formatter.wrap_output output
-    end
-
-    def story_formatter story
-      @formatter.story_formatter story
+      @formatter.wrap(
+        api
+          .projects(@project_id)
+          .stories.get(params).payload
+      )
     end
   end
 end

@@ -5,8 +5,16 @@ module TrackerDeliveries
       @format = format
     end
 
-    def story_formatter s
+    def format_story s
       return send(@format, s)
+    end
+
+    def wrap stories
+      wrap_output(
+        stories
+          .map{|s| format_story s}
+          .join "\n"
+      )
     end
 
     def wrap_output output
