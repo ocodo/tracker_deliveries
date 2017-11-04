@@ -1,13 +1,8 @@
 module TrackerDeliveries
-  class FormatTools
-    PIVOTAL_TRACKER_STORY_URL = 'https://pivotaltracker.com/story/show/'
-
-    def initialize format
+  class StoryFormatter
+    def initialize format, link
+      @link = link
       @format = format
-    end
-
-    def pivotal_tracker_link s
-      %Q{#{PIVOTAL_TRACKER_STORY_URL}#{s.id}}
     end
 
     def story_formatter s
@@ -24,12 +19,12 @@ module TrackerDeliveries
     end
 
     def markdown s
-      link = %Q{[#{s.id}](#{pivotal_tracker_link s})}
+      link = %Q{[#{s.id}](#{@link + s.id})}
       %Q{- #{link} - #{s.name}}
     end
 
     def html s
-      link = %Q{<a href="#{pivotal_tracker_link s}">#{s.id}</a>}
+      link = %Q{<a href="#{@link + s.id}">#{s.id}</a>}
       %Q{<li>#{link} - #{s.name}</li>}
     end
   end

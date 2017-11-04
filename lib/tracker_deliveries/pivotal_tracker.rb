@@ -2,15 +2,16 @@ require 'blanket'
 
 module TrackerDeliveries
   class PivotalTracker
-    PIVOTAL_API_URL = 'https://www.pivotaltracker.com/services/v5/'
+    API_URL = 'https://www.pivotaltracker.com/services/v5/'
+    STORY_URL = 'https://pivotaltracker.com/story/show/'
 
     attr_accessor :api
 
     def initialize project_id, api_key, options = {}
       @api_key = api_key
       @project_id = project_id
-      @format_tools = TrackerDeliveries::FormatTools.new options[:format] || :plaintext
-      @api = Blanket.wrap PIVOTAL_API_URL,
+      @format_tools = StoryFormatter.new(options[:format] || :plaintext, STORY_URL)
+      @api = Blanket.wrap API_URL,
                           headers: { 'X-TrackerToken' => @api_key }
     end
 

@@ -1,6 +1,6 @@
 require 'tracker_deliveries/version'
 require 'tracker_deliveries/pivotal_tracker'
-require 'tracker_deliveries/format_tools'
+require 'tracker_deliveries/story_formatter'
 
 module TrackerDeliveries
   class Main
