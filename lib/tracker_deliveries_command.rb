@@ -7,17 +7,17 @@ class TrackerDeliveriesCommand
 
   def main args = nil
     format = case args
-             when /--markdown/
+             when /--(format: *)?markdown/
                "markdown"
-             when /--html/
+             when /--(format: *)?html/
                "html"
-             when /--plaintext/
+             when /--(format: *)?plaintext/
                "plaintext"
              else
                "plaintext"
              end
 
-    puts @tracker_deliveries
+    STDOUT.puts @tracker_deliveries
       .new(format: format)
       .delivered_stories
   end

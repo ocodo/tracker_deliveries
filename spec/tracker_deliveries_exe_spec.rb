@@ -19,14 +19,24 @@ describe 'TrackerDeliveriesCommand' do
       allow(tracker_deliveries_main).to receive(:delivered_stories)
     end
 
-    it 'parse markdown option and forward it' do
+    it 'parses markdown option and forward it' do
       expect(tracker_deliveries_main).to receive(:new).with({ format: "markdown" })
       TrackerDeliveriesCommand.new(tracker_deliveries_main).main "--markdown"
     end
 
-    it 'parse HTML option and forward it' do
+    it 'parses format markdown option and forward it' do
+      expect(tracker_deliveries_main).to receive(:new).with({ format: "markdown" })
+      TrackerDeliveriesCommand.new(tracker_deliveries_main).main "--format:markdown"
+    end
+
+    it 'parses HTML option and forward it' do
       expect(tracker_deliveries_main).to receive(:new).with({ format: "html" })
       TrackerDeliveriesCommand.new(tracker_deliveries_main).main "--html"
+    end
+
+    it 'parses format HTML option and forward it' do
+      expect(tracker_deliveries_main).to receive(:new).with({ format: "html" })
+      TrackerDeliveriesCommand.new(tracker_deliveries_main).main "--format:html"
     end
   end
 end
