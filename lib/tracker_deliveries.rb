@@ -21,7 +21,8 @@ module TrackerDeliveries
       abort "Fatal: Project ID environment variable not set (#{PROJECT_ID_ENV})" unless project_id
       abort "Fatal: PivotalTracker API Token environment variable not set (#{API_TOKEN_ENV})" unless api_token
 
-      @pivotal_tracker = TrackerDeliveries::PivotalTracker.new(@project_id, @api_token, options)
+      @pivotal_tracker = TrackerDeliveries::
+                           PivotalTracker.new(options)
     end
 
     def delivered_stories

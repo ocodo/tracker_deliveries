@@ -7,9 +7,9 @@ module TrackerDeliveries
 
     attr_accessor :api
 
-    def initialize project_id, api_key, options = {}
-      @api_key = api_key
-      @project_id = project_id
+    def initialize options = {}
+      @api_key = options[:api_key]
+      @project_id = options[:project_id]
 
       @formatter = StoryFormatter.new(
         options[:format] || :plaintext,
@@ -32,11 +32,15 @@ module TrackerDeliveries
           }
       }
 
-      @formatter.wrap(
-        api
-          .projects(@project_id)
-          .stories.get(params).payload
-      )
+      begin
+        @formatter.wrap(
+          api
+            .projects(@project_id)
+            .stories.get(params).payload
+        )
+      rescue Blanket::ResourceNotFound
+        STDERR.puts "PivotalTracker responded with: 404 for #{@project_id} - #{@api_key}"
+      end
     end
   end
 end

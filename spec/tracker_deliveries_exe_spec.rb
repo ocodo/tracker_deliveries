@@ -7,7 +7,7 @@ describe 'TrackerDeliveriesCommand' do
     it 'calls the command' do
       expect(
         `ruby -Ilib exe/tracker_deliveries 2>&1`.strip
-      ).to eq "Fatal: Project ID environment variable not set (TRACKER_DELIVERIES_PROJECT_ID)"
+      ).to match "Fatal: Project ID environment variable not set"
     end
   end
 
@@ -19,24 +19,44 @@ describe 'TrackerDeliveriesCommand' do
       allow(tracker_deliveries_main).to receive(:delivered_stories)
     end
 
-    it 'parses markdown option and forward it' do
-      expect(tracker_deliveries_main).to receive(:new).with({ format: "markdown" })
+    example '--markdown' do
+      expect(tracker_deliveries_main).to receive(:new).with(hash_including({ format: "markdown" }))
       TrackerDeliveriesCommand.new(tracker_deliveries_main).main "--markdown"
     end
 
-    it 'parses format markdown option and forward it' do
-      expect(tracker_deliveries_main).to receive(:new).with({ format: "markdown" })
+    example '--format:markdown' do
+      expect(tracker_deliveries_main).to receive(:new).with(hash_including({ format: "markdown" }))
       TrackerDeliveriesCommand.new(tracker_deliveries_main).main "--format:markdown"
     end
 
-    it 'parses HTML option and forward it' do
-      expect(tracker_deliveries_main).to receive(:new).with({ format: "html" })
+    example '--html' do
+      expect(tracker_deliveries_main).to receive(:new).with(hash_including({ format: "html" }))
       TrackerDeliveriesCommand.new(tracker_deliveries_main).main "--html"
     end
 
-    it 'parses format HTML option and forward it' do
-      expect(tracker_deliveries_main).to receive(:new).with({ format: "html" })
+    example '--format:html' do
+      expect(tracker_deliveries_main).to receive(:new).with(hash_including({ format: "html" }))
       TrackerDeliveriesCommand.new(tracker_deliveries_main).main "--format:html"
+    end
+
+    example '--tracker:token TOKEN' do
+      expect(tracker_deliveries_main).to receive(:new).with(hash_including({ api_token: "TOKEN" }))
+      TrackerDeliveriesCommand.new(tracker_deliveries_main).main "--tracker:token TOKEN"
+    end
+
+    example '--tracker:token=TOKEN' do
+      expect(tracker_deliveries_main).to receive(:new).with(hash_including({ api_token: "TOKEN" }))
+      TrackerDeliveriesCommand.new(tracker_deliveries_main).main "--tracker:token=TOKEN"
+    end
+
+    example '--tracker:project PROJECT_ID' do
+      expect(tracker_deliveries_main).to receive(:new).with(hash_including({ project_id: "12345678" }))
+      TrackerDeliveriesCommand.new(tracker_deliveries_main).main "--tracker:project 12345678"
+    end
+
+    example '--tracker:project=PROJECT_ID' do
+      expect(tracker_deliveries_main).to receive(:new).with(hash_including({ project_id: "12345678" }))
+      TrackerDeliveriesCommand.new(tracker_deliveries_main).main "--tracker:project=12345678"
     end
   end
 end

@@ -1,13 +1,16 @@
 require 'spec_helper'
 require 'ostruct'
-
 include TrackerDeliveries
 
 describe PivotalTracker do
 
   let(:project_id)      { '12313131' }
   let(:api_token)       { '_token_' }
-  let(:subject)         { PivotalTracker.new(project_id, api_token) }
+  let(:subject)         { PivotalTracker.new(config) }
+  let(:config)          { {project_id: project_id,
+                           api_token: api_token,
+                           format: "plaintext"} }
+
   let(:story_one)       { OpenStruct.new({id: '123456', name: 'Story one'}) }
   let(:story_two)       { OpenStruct.new({id: '654321', name: 'Story two'}) }
   let(:blanket)         { double 'Blanket' }
@@ -33,7 +36,9 @@ describe PivotalTracker do
   end
 
   context "markdown output" do
-    let(:subject) { PivotalTracker.new(project_id, api_token, format: :markdown) }
+    let(:subject) { PivotalTracker.new(project_id: project_id,
+                                       api_token: api_token,
+                                       format: :markdown) }
 
     it 'output delivered stories from pivotal tracker in markdown format' do
       expect(result).to eq(%Q{- [123456](https://pivotaltracker.com/story/show/123456) - Story one\n- [654321](https://pivotaltracker.com/story/show/654321) - Story two})
@@ -41,7 +46,9 @@ describe PivotalTracker do
   end
 
   context "HTML output" do
-    let(:subject) { PivotalTracker.new(project_id, api_token, format: :html) }
+    let(:subject) { PivotalTracker.new(project_id: project_id,
+                                       api_token: api_token,
+                                       format: :html) }
 
     it 'output delivered stories from pivotal tracker in HTML format' do
       expect(result).to eq(%Q{<ul>

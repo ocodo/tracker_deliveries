@@ -36,16 +36,21 @@ describe TrackerDeliveries do
     end
 
     context "pivotal tracker api wrapper" do
-      let(:pivotal_tracker) { double("pivotal tracker") }
-      let(:tracker_deliveries) { TrackerDeliveries::Main.new }
+      let(:config) { {project_id: project_id,
+                      api_token: api_token,
+                      format: "plaintext"} }
+      let(:tracker_deliveries) { TrackerDeliveries::Main.new(config) }
+
+      it 'is configured with options' do
+        pivotal_tracker = double('pivotal_tracker')
+        allow(pivotal_tracker).to receive(:delivered_stories)
+        expect(PivotalTracker).to receive(:new).with(config).and_return(pivotal_tracker)
+        tracker_deliveries.delivered_stories
+      end
 
       it 'request list of delivered stories' do
-        allow(pivotal_tracker).to receive(:delivered_stories)
-
-        expect(pivotal_tracker).to receive(:delivered_stories)
-
-        tracker_deliveries.pivotal_tracker = pivotal_tracker
-        tracker_deliveries.delivered_stories
+        expect_any_instance_of(PivotalTracker).to receive(:delivered_stories).and_return("foo")
+        expect(tracker_deliveries.delivered_stories).to eq "foo"
       end
     end
   end

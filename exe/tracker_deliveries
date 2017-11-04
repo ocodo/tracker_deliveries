@@ -3,4 +3,4 @@
 
 require 'tracker_deliveries_command'
 
-TrackerDeliveriesCommand.new().main ARGV[0]
+TrackerDeliveriesCommand.new().main ARGV.join(' ')
