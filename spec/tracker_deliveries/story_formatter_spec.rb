@@ -8,11 +8,12 @@ describe StoryFormatter do
   let(:formatter) {StoryFormatter
                      .new(format, url)
                      .get_formatter(format, url)}
+
   context 'plaintext' do
     let(:format) { 'plaintext' }
 
     it 'selects the required formatter' do
-      expect(formatter).to be_instance_of TrackerDeliveries::Formatters::Plaintext
+      expect(formatter).to be_instance_of Formatters::Plaintext
     end
   end
 
@@ -20,7 +21,7 @@ describe StoryFormatter do
     let(:format) { 'markdown' }
 
     it 'selects the required formatter' do
-      expect(formatter).to be_instance_of TrackerDeliveries::Formatters::Markdown
+      expect(formatter).to be_instance_of Formatters::Markdown
     end
   end
 
@@ -28,7 +29,7 @@ describe StoryFormatter do
     let(:format) { 'html' }
 
     it 'selects the required formatter' do
-      expect(formatter).to be_instance_of TrackerDeliveries::Formatters::Html
+      expect(formatter).to be_instance_of Formatters::Html
     end
   end
 end
