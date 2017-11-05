@@ -21,7 +21,7 @@ describe PivotalTracker do
   let(:options)         { { with_state: 'delivered' } }
 
   before do
-    # Mock the story formatter
+    # Mock Story Formatter
     allow(formatter).to receive(:wrap)
 
     expect(StoryFormatter)
@@ -29,7 +29,7 @@ describe PivotalTracker do
             .with(format, story_url)
             .and_return(formatter)
 
-    # Mock the blanket api wrapper
+    # Mock Blanket API Wrapper
     allow(get)
       .to receive(:payload).and_return([])
 
