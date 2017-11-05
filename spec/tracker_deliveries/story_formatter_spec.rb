@@ -11,47 +11,44 @@ describe StoryFormatter do
   let(:story_two) { OpenStruct.new({id: '654321', name: 'Story two'}) }
   let(:stories) { [story_one, story_two] }
 
-  context 'Formatters::Plaintext' do
-    let(:format) { 'plaintext' }
+  describe 'use formatter' do
+    context 'format:plaintext' do
+      let(:format) { 'plaintext' }
 
-    it 'selects the required formatter' do
-      expect(formatter).to be_instance_of Formatters::Plaintext
+      it 'selects Formatters::Plaintext' do
+        expect(formatter).to be_instance_of Formatters::Plaintext
+      end
+
+      it 'calls #wrapper on the formatter' do
+        expect_any_instance_of(Formatters::Plaintext).to receive(:wrapper)
+        story_formatter.format stories
+      end
     end
 
-    it 'formats stories' do
-      expect(story_formatter.wrap(stories))
-        .to eq "123456 - Story one\n" +
-               "654321 - Story two"
-    end
-  end
+    context 'format:markdown' do
+      let(:format) { 'markdown' }
 
-  context 'Formatters::Markdown' do
-    let(:format) { 'markdown' }
+      it 'selects Formatters::Markdown' do
+        expect(formatter).to be_instance_of Formatters::Markdown
+      end
 
-    it 'selects the required formatter' do
-      expect(formatter).to be_instance_of Formatters::Markdown
-    end
-
-    it 'formats stories' do
-      expect(story_formatter.wrap(stories))
-        .to eq "- [123456](base_story_url123456) - Story one\n" +
-               "- [654321](base_story_url654321) - Story two"
-    end
-  end
-
-  context 'Formatters::Html' do
-    let(:format) { 'html' }
-
-    it 'selects the required formatter' do
-      expect(formatter).to be_instance_of Formatters::Html
+      it 'calls #wrapper on the formatter' do
+        expect_any_instance_of(Formatters::Markdown).to receive(:wrapper)
+        story_formatter.format stories
+      end
     end
 
-    it 'formats stories' do
-      expect(story_formatter.wrap(stories))
-        .to eq "<ul>\n" +
-               "<li><a href=\"base_story_url123456\">123456</a> - Story one</li>\n" +
-               "<li><a href=\"base_story_url654321\">654321</a> - Story two</li>\n" +
-               "</ul>"
+    context 'format:html' do
+      let(:format) { 'html' }
+
+      it 'selects Formatters::Html' do
+        expect(formatter).to be_instance_of Formatters::Html
+      end
+
+      it 'calls #wrapper on the formatter' do
+        expect_any_instance_of(Formatters::Html).to receive(:wrapper)
+        story_formatter.format stories
+      end
     end
   end
 end

@@ -22,7 +22,8 @@ describe PivotalTracker do
 
   before do
     # Mock Story Formatter
-    allow(formatter).to receive(:wrap)
+    allow(formatter).to receive(:wrapper)
+                          .with([])
 
     expect(StoryFormatter)
       .to receive(:new)
@@ -53,7 +54,7 @@ describe PivotalTracker do
   context "plaintext output" do
     let(:format) { "plaintext" }
 
-    it 'request output in plaintext format' do
+    it 'request output' do
       subject.delivered_stories
     end
   end
@@ -61,7 +62,7 @@ describe PivotalTracker do
   context "markdown output" do
     let(:format) { "markdown" }
 
-    it 'request output in markdown format' do
+    it 'request output' do
       subject.delivered_stories
     end
   end
@@ -69,7 +70,7 @@ describe PivotalTracker do
   context "HTML output" do
     let(:format) { "html" }
 
-    it 'request output in html format' do
+    it 'request output' do
       subject.delivered_stories
     end
   end

@@ -11,15 +11,8 @@ module TrackerDeliveries
         .new(base_url)
     end
 
-    def wrap stories
-      wrapper stories
-                .map{ |s| @formatter.format_story s }
-                .join "\n"
-    end
-
-    def wrapper output
-      return %Q{<ul>\n#{output}\n</ul>} if @format == "html"
-      output
+    def format stories
+      @formatter.wrapper(stories)
     end
   end
 end

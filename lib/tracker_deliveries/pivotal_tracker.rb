@@ -33,7 +33,7 @@ module TrackerDeliveries
       }
 
       begin
-        @formatter.wrap(
+        @formatter.wrapper(
           api
             .projects(@project_id)
             .stories.get(params).payload

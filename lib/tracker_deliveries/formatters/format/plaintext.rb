@@ -1,5 +1,5 @@
 class TrackerDeliveries::Formatters::Plaintext < TrackerDeliveries::Formatters::StoryFormat
-  def format_story s
-    %Q{#{s.id} - #{s.name}}
+  def format story
+    %Q{#{story.id} - #{story.name}}
   end
 end
