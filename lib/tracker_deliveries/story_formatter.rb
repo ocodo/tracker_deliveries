@@ -18,7 +18,7 @@ module TrackerDeliveries
     end
 
     def wrapper output
-      return %Q{<ul>\n#{output}\n</ul>} if @format == :html
+      return %Q{<ul>\n#{output}\n</ul>} if @format == "html"
       output
     end
   end

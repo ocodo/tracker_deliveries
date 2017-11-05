@@ -3,14 +3,6 @@ require 'tracker_deliveries_command'
 
 describe 'TrackerDeliveriesCommand' do
 
-  describe 'exe wrapper' do
-    it 'calls the command' do
-      expect(
-        `ruby -Ilib exe/tracker_deliveries 2>&1`.strip
-      ).to match "Fatal: Project ID environment variable not set"
-    end
-  end
-
   describe 'parsing commandline options' do
     let(:tracker_deliveries_main) { double('TrackerDeliveries::Main') }
 
