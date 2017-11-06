@@ -1,3 +1,2 @@
 module TrackerDeliveries
-  VERSION = "0.2.2"
-end
+  VERSION = "0.2.333end
