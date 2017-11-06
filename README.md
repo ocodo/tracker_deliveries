@@ -44,12 +44,14 @@ Story ids will link back to PivotalTracker when using
 
 * * *
 
-# Example output
+# Example output (plaintext format)
 
+```
 132412351 - Add widget service request to order form
 123412144 - Display widget detail view UI
 131412414 - Update widget quantity in shopping cart
 132412155 - Localize cart in Pirate speak, arr.
+```
 
 ## How do I get the Pivotal Tracker API Token & Project ID?
 
