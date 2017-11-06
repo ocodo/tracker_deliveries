@@ -1,5 +1,3 @@
-require 'pry-byebug'
-
 class TrackerDeliveries::Formatters::Html < TrackerDeliveries::Formatters::StoryFormat
   def format s
     link = %Q{<a href="#{story_url s}">#{s.id}</a>}
