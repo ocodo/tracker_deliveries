@@ -23,7 +23,7 @@ describe PivotalTracker do
 
   before do
     # Mock Story Formatter
-    allow(formatter).to receive(:wrapper)
+    allow(formatter).to receive(:format)
                           .with([])
 
     expect(StoryFormatter)
