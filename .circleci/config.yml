@@ -20,17 +20,12 @@ jobs:
       - run:
           name: run tests
           command: |
-            bundle exec ruby integration_spec/fake_pivotal_tracker.rb  -o 127.0.0.1 -p 4567 &
-            SINATRA_PID=$!
-            echo "Running fake server"
             mkdir -p /tmp/test-results
-            TEST_FILES="$(circleci tests glob "*spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
             bundle exec rspec --format documentation \
                               --format RspecJunitFormatter \
                               --out /tmp/test-results/rspec.xml \
                               -- $(sed -e 's/\n/\\n/' -e 's/ /\ /' <<< "${TEST_FILES}")
-
-            kill $SINATRA_PID
 
       - store_test_results:
           path: /tmp/test-results
