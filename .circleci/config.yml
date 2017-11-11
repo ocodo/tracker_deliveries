@@ -27,7 +27,7 @@ jobs:
                               --out /tmp/test-results/rspec.xml \
                               -- $(sed -e 's/\n/\\n/' -e 's/ /\ /' <<< "${TEST_FILES}")
 
-            ruby integration_spec/fake_pivotal_tracker.rb  -o 127.0.0.1 -p 4567
+            bundle exec ruby integration_spec/fake_pivotal_tracker.rb  -o 127.0.0.1 -p 4567
             SINATRA_PID=$!
             puts "Running fake server"
             TEST_FILES="$(circleci tests glob "integration_spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
