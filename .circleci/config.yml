@@ -22,7 +22,7 @@ jobs:
           command: |
             bundle exec ruby integration_spec/fake_pivotal_tracker.rb  -o 127.0.0.1 -p 4567 &
             SINATRA_PID=$!
-            puts "Running fake server"
+            echo "Running fake server"
             mkdir -p /tmp/test-results
             TEST_FILES="$(circleci tests glob "*spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
             bundle exec rspec --format documentation \
