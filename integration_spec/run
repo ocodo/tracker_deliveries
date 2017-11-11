@@ -1,0 +1,11 @@
+#!/bin/bash
+# -*- mode: sh -*-
+bundle exec \
+       ruby \
+       integration_spec/fake_pivotal_tracker.rb \
+       -o 127.0.0.1 \
+       -p 4567 \
+  &
+FAKE_PIVOTAL_TRACKER_PID=$!
+rspec integration_spec/tracker_deliveries_integration_spec.rb
+kill $FAKE_PIVOTAL_TRACKER_PID
