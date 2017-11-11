@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'tracker_deliveries_command'
 
 describe 'TrackerDeliveriesCommand' do
-
   describe 'parsing commandline options' do
     let(:tracker_deliveries_main) { double('TrackerDeliveries::Main') }
 

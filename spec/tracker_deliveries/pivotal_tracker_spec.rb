@@ -10,7 +10,8 @@ describe PivotalTracker do
   let(:subject)         { PivotalTracker.new(config) }
   let(:config)          { {project_id: project_id,
                            api_token: api_token,
-                           format: format} }
+                           format: format,
+                           api: ''} }
 
   let(:formatter)       { double 'StoryFormatter' }
   let(:blanket)         { double 'Blanket' }

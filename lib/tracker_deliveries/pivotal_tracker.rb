@@ -2,14 +2,15 @@ require 'blanket'
 
 module TrackerDeliveries
   class PivotalTracker
-    API_URL = 'https://www.pivotaltracker.com/services/v5/'
     STORY_URL = 'https://pivotaltracker.com/story/show/'
+    API_URL='https://www.pivotaltracker.com/services/v5/'
 
     attr_accessor :api
 
     def initialize options = {}
-      @api_key = options[:api_key]
+      @api_token = options[:api_token]
       @project_id = options[:project_id]
+      @api_url = options[:api] || API_URL
 
       @formatter = StoryFormatter.new(
         options[:format] || :plaintext,
@@ -17,9 +18,9 @@ module TrackerDeliveries
       )
 
       @api = Blanket.wrap(
-        API_URL,
+        @api_url,
         headers: {
-          'X-TrackerToken' => @api_key
+          'X-TrackerToken' => @api_token
         }
       )
     end
@@ -33,13 +34,15 @@ module TrackerDeliveries
       }
 
       begin
-        @formatter.wrapper(
+        @formatter.format(
           api
             .projects(@project_id)
             .stories.get(params).payload
         )
+      rescue Blanket::Forbidden
+        STDERR.puts "PivotalTracker responded with: 403 (Forbidden) project: #{@project_id}, api_token: #{@api_token}"
       rescue Blanket::ResourceNotFound
-        STDERR.puts "PivotalTracker responded with: 404 for #{@project_id} - #{@api_key}"
+        STDERR.puts "PivotalTracker responded with: 404 (Not Found) project: #{@project_id}, api_token: #{@api_token}"
       end
     end
   end
