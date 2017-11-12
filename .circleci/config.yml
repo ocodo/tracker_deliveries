@@ -32,3 +32,7 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+      - run:
+          name: run integration test
+          command: |
+            integration_spec/run
