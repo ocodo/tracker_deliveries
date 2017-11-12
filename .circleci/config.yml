@@ -17,6 +17,17 @@ jobs:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: fake pivotal tracker server
+          command: |
+            bundle exec \
+            ruby \
+            integration_spec/fake_pivotal_tracker.rb \
+            -o 127.0.0.1 \
+            -p 4567 &
+            echo $! > /tmp/fake_pivotal_tracker_pid
+
       - run:
           name: run tests
           command: |
@@ -27,12 +38,15 @@ jobs:
                               --out /tmp/test-results/rspec.xml \
                               -- $(sed -e 's/\n/\\n/' -e 's/ /\ /' <<< "${TEST_FILES}")
 
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
       - run:
-          name: run integration test
+          name: kill fake pivotal tracker server
           command: |
-            integration_spec/run
+            kill $(< /tmp/fake_pivotal_tracker_pid)
+
+      - store_test_results:
+          paths:
+            - /tmp/test-results
+      - store_artifacts:
+          paths:
+            - /tmp/test-results
+          destination: test-results

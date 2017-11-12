@@ -1,0 +1,15 @@
+#!/bin/bash
+# -*- mode: sh -*-
+bundle exec \
+       ruby \
+       spec/fake_pivotal_tracker.rb \
+       -o 127.0.0.1 \
+       -p 4567 &
+
+echo $! > ./fake_pivotal_tracker_pid
+
+rspec
+
+echo "Kill Fake PivotalTracker server on http://localhost:4567 [PID: $(< ./fake_pivotal_tracker_pid)]"
+kill $(< ./fake_pivotal_tracker_pid)
+rm ./fake_pivotal_tracker_pid

@@ -9,40 +9,48 @@ def capture_shell(command)
 end
 
 describe 'tracker_deliveries' do
+
+  before :all do
+    ENV['TRACKER_DELIVERIES_API_TOKEN'] = nil
+    ENV['TRACKER_DELIVERIES_PROJECT_ID'] = nil
+  end
+
   describe 'runtime errors' do
     let(:env) { '' }
     let(:options) { '' }
     let(:command) { "#{env} ruby -Ilib exe/tracker_deliveries #{options}" }
     let(:output) { capture_shell(command) }
+    let(:stderr) { output[:stderr].chomp }
+    let(:stdout) { output[:stdout].chomp }
 
     it 'aborts with an API_TOKEN error and usage notes when no mandatory options or usable environment is provided' do
-      expect(output[:stdout]).to eq ''
-      expect(output[:stderr]).to include Main::FATAL_MESSAGE_API_TOKEN
-      expect(output[:stderr]).to include 'Tracker Deliveries'
-      expect(output[:stderr]).to include 'Usage'
-      expect(output[:stderr]).to include ''
+      expect(stdout).to eq ''
+      expect(stderr).to include Main::FATAL_MESSAGE_API_TOKEN
+      expect(stderr).to include 'Tracker Deliveries'
+      expect(stderr).to include 'Usage'
+      expect(stderr).to include ''
     end
 
     context 'only api_token' do
       context 'in environment' do
         let(:env) { 'TRACKER_DELIVERIES_API_TOKEN=FAKE_TOKEN' }
         it 'aborts with a PROJECT_ID error and usage notes when no mandatory options or usable environment is provided' do
-          expect(output[:stdout]).to eq ''
-          expect(output[:stderr]).to include Main::FATAL_MESSAGE_PROJECT_ID
-          expect(output[:stderr]).to include 'Tracker Deliveries'
-          expect(output[:stderr]).to include 'Usage'
-          expect(output[:stderr]).to include ''
+          expect(stdout).to eq ''
+          expect(stderr).to include Main::FATAL_MESSAGE_PROJECT_ID
+          expect(stderr).to include 'Tracker Deliveries'
+          expect(stderr).to include 'Usage'
+          expect(stderr).to include ''
         end
       end
 
       context 'in option switch' do
         let(:options) { '--tracker:token=fake_token' }
         it 'aborts with a PROJECT_ID error and usage notes when no mandatory options or usable environment is provided' do
-          expect(output[:stdout]).to eq ''
-          expect(output[:stderr]).to include Main::FATAL_MESSAGE_PROJECT_ID
-          expect(output[:stderr]).to include 'Tracker Deliveries'
-          expect(output[:stderr]).to include 'Usage'
-          expect(output[:stderr]).to include ''
+          expect(stdout).to eq ''
+          expect(stderr).to include Main::FATAL_MESSAGE_PROJECT_ID
+          expect(stderr).to include 'Tracker Deliveries'
+          expect(stderr).to include 'Usage'
+          expect(stderr).to include ''
         end
       end
     end
@@ -51,11 +59,11 @@ describe 'tracker_deliveries' do
       context 'in environment' do
         let(:env) { 'TRACKER_DELIVERIES_PROJECT_ID=1234' }
         it 'aborts with a PROJECT_ID error and usage notes when no mandatory options or usable environment is provided' do
-          expect(output[:stdout]).to eq ''
-          expect(output[:stderr]).to include Main::FATAL_MESSAGE_API_TOKEN
-          expect(output[:stderr]).to include 'Tracker Deliveries'
-          expect(output[:stderr]).to include 'Usage'
-          expect(output[:stderr]).to include ''
+          expect(stdout).to eq ''
+          expect(stderr).to include Main::FATAL_MESSAGE_API_TOKEN
+          expect(stderr).to include 'Tracker Deliveries'
+          expect(stderr).to include 'Usage'
+          expect(stderr).to include ''
         end
       end
 
@@ -63,22 +71,22 @@ describe 'tracker_deliveries' do
         context 'with =' do
           let(:options) { '--tracker:project=1234' }
           it 'aborts with a PROJECT_ID error and usage notes when no mandatory options or usable environment is provided' do
-            expect(output[:stdout]).to eq ''
-            expect(output[:stderr]).to include Main::FATAL_MESSAGE_API_TOKEN
-            expect(output[:stderr]).to include 'Tracker Deliveries'
-            expect(output[:stderr]).to include 'Usage'
-            expect(output[:stderr]).to include ''
+            expect(stdout).to eq ''
+            expect(stderr).to include Main::FATAL_MESSAGE_API_TOKEN
+            expect(stderr).to include 'Tracker Deliveries'
+            expect(stderr).to include 'Usage'
+            expect(stderr).to include ''
           end
         end
 
         context 'with space' do
           let(:options) { '--tracker:project 1234' }
           it 'aborts with a PROJECT_ID error and usage notes when no mandatory options or usable environment is provided' do
-            expect(output[:stdout]).to eq ''
-            expect(output[:stderr]).to include Main::FATAL_MESSAGE_API_TOKEN
-            expect(output[:stderr]).to include 'Tracker Deliveries'
-            expect(output[:stderr]).to include 'Usage'
-            expect(output[:stderr]).to include ''
+            expect(stdout).to eq ''
+            expect(stderr).to include Main::FATAL_MESSAGE_API_TOKEN
+            expect(stderr).to include 'Tracker Deliveries'
+            expect(stderr).to include 'Usage'
+            expect(stderr).to include ''
           end
         end
       end
@@ -100,31 +108,31 @@ describe 'tracker_deliveries' do
       context 'env' do
         let(:env) { 'TRACKER_DELIVERIES_PROJECT_ID=1234 TRACKER_DELIVERIES_API_TOKEN=FAKE' }
         it 'Connects to Pivotal Tracker with project and api token' do
-          expect(output[:stderr].chomp).to eq ''
-          expect(output[:stdout].chomp).to eq "123456 - Story one\n654321 - Story two"
+          expect(stderr).to eq ''
+          expect(stdout).to eq "123456 - Story one\n654321 - Story two"
         end
       end
 
       context 'options' do
         let(:options) { '--tracker:project=1234 --tracker:token=FAKE' }
         it 'Connects to Pivotal Tracker with project and api token' do
-          expect(output[:stderr].chomp).to eq ''
-          expect(output[:stdout].chomp).to eq "123456 - Story one\n654321 - Story two"
+          expect(stderr).to eq ''
+          expect(stdout).to eq "123456 - Story one\n654321 - Story two"
         end
       end
 
       context 'project not found' do
         let(:options) { '--tracker:project=404 --tracker:token=FAKE' }
         it 'Connects to Pivotal Tracker and passes back a 404 error' do
-          expect(output[:stderr].chomp).to eq 'PivotalTracker responded with: 404 (Not Found) project: 404, api_token: FAKE'
-          expect(output[:stdout].chomp).to eq ''
+          expect(stderr).to eq 'PivotalTracker responded with: 404 (Not Found) project: 404, api_token: FAKE'
+          expect(stdout).to eq ''
         end
       end
       context 'no access to project' do
         let(:options) { '--tracker:project=403 --tracker:token=FAKE' }
         it 'Connects to Pivotal Tracker and passes back a 403 error' do
-          expect(output[:stderr].chomp).to eq 'PivotalTracker responded with: 403 (Forbidden) project: 403, api_token: FAKE'
-          expect(output[:stdout].chomp).to eq ''
+          expect(stderr).to eq 'PivotalTracker responded with: 403 (Forbidden) project: 403, api_token: FAKE'
+          expect(stdout).to eq ''
         end
       end
     end
