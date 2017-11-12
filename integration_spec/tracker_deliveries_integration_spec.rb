@@ -84,13 +84,17 @@ describe 'tracker_deliveries' do
       end
     end
 
-    context 'both api token and project id (testing against wiremock)' do
+    context 'both api token and project id (testing against fake_pivotal_tracker)' do
       before :all do
         ENV['TRACKER_DELIVERIES_DEBUG_API_URL'] = 'http://localhost:4567'
+
+        puts "Fake PivotalTracker server required on localhost:4567 (use ./integration_spec/run)"
       end
 
       after :all do
         ENV['TRACKER_DELIVERIES_DEBUG_API_URL'] = nil
+
+        puts "Stop fake PivotalTracker server localhost:4567 (PID: #{ENV['FAKE_PIVOTAL_TRACKER_PID']})"
       end
 
       context 'env' do
