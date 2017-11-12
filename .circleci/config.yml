@@ -22,8 +22,7 @@ jobs:
           name: run tests
           command: |
             bundle exec \
-            ruby \
-            integration_spec/fake_pivotal_tracker.rb \
+            ruby spec/fake_pivotal_tracker.rb \
             -o 127.0.0.1 \
             -p 4567 &
 
