@@ -44,9 +44,7 @@ jobs:
             kill $(< /tmp/fake_pivotal_tracker_pid)
 
       - store_test_results:
-          paths:
-            - /tmp/test-results
+          path: /tmp/test-results
       - store_artifacts:
-          paths:
-            - /tmp/test-results
+          path: /tmp/test-results
           destination: test-results
