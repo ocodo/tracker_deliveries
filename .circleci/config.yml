@@ -19,28 +19,25 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       - run:
-          name: fake pivotal tracker server
+          name: run tests
           command: |
             bundle exec \
             ruby \
             integration_spec/fake_pivotal_tracker.rb \
             -o 127.0.0.1 \
             -p 4567 &
+
             echo $! > /tmp/fake_pivotal_tracker_pid
 
-      - run:
-          name: run tests
-          command: |
             mkdir -p /tmp/test-results
+
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+
             bundle exec rspec --format documentation \
                               --format RspecJunitFormatter \
                               --out /tmp/test-results/rspec.xml \
                               -- $(sed -e 's/\n/\\n/' -e 's/ /\ /' <<< "${TEST_FILES}")
 
-      - run:
-          name: kill fake pivotal tracker server
-          command: |
             kill $(< /tmp/fake_pivotal_tracker_pid)
 
       - store_test_results:
